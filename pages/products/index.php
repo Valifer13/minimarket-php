@@ -2,22 +2,21 @@
 define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/indomaret');
 
 require_once ROOTPATH . "/config/config.php";
-require_once ROOTPATH . "/includes/formatDate.php";
 require_once ROOTPATH . "/includes/header.php";
 
-$query = "SELECT * FROM cashiers";
+$query = "SELECT * FROM products";
 $result = mysqli_query($conn, $query);
 
 ?>
 
 <div class="flex justify-between items-center mb-4">
-    <h1 class="text-2xl tracking-tighter font-medium">Cashiers List</h1>
-    <button id="btn-add-cashier" class="flex gap-2 px-3 py-2 bg-blue-500 rounded-md items-center text-white text-sm tracking-tight cursor-pointer hover:bg-blue-600 transition-all duration-300 font-medium">
+    <h1 class="text-2xl tracking-tighter font-medium">Products List</h1>
+    <button id="btn-add-product" class="flex gap-2 px-3 py-2 bg-blue-500 rounded-md items-center text-white text-sm tracking-tight cursor-pointer hover:bg-blue-600 transition-all duration-300 font-medium">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ffffff" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
             <line x1="12" y1="5" x2="12" y2="19"></line>
             <line x1="5" y1="12" x2="19" y2="12"></line>
         </svg>
-        ADD CASHIER
+        ADD PRODUCT
     </button>
 </div>
 <div class="flex justify-between items-center">
@@ -27,7 +26,7 @@ $result = mysqli_query($conn, $query);
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input class="w-full focus:outline-none" type="text" name="search" id="search-keyword" placeholder="Search Cashier...">
+            <input class="w-full focus:outline-none" type="text" name="search" id="search-keyword" placeholder="Search Product...">
         </div>
         <button id="search-btn" type="submit" class="px-3 py-2 bg-zinc-100 hover:bg-zinc-200 border-y border-e border-zinc-400 rounded-e-md text-sm transition-all duration-300">Search</button>
     </form>
@@ -55,13 +54,13 @@ $result = mysqli_query($conn, $query);
             <th class="border-b border-b-zinc-300 p-2 w-fit" colspan="2">Action</th>
         </tr>
     </thead>
-    <tbody id="cashiers-table-body">
+    <tbody id="products-table-body">
             <?php
             $no = 1;
             while ($row = $result->fetch_assoc()):
             ?>
                 <tr class="**:text-sm">
-                    <td class="border-b border-b-zinc-300 p-2 w-10"><input type="checkbox" name="id" id="checkbox-cashier-id" value="<?= $row['id'] ?>"></td>
+                    <td class="border-b border-b-zinc-300 p-2 w-10"><input type="checkbox" name="id" id="checkbox-product-id" value="<?= $row['id'] ?>"></td>
                     <td class="border-y border-y-zinc-300 p-2 text-zinc-400"><?= $no++ ?></td>
                     <td class="border-y border-y-zinc-300 p-2"><?= $row['name'] ?></td>
                     <td class="border-b border-b-zinc-300 p-2">
@@ -77,12 +76,12 @@ $result = mysqli_query($conn, $query);
                     </td>
                     <td class="border-y border-y-zinc-300 p-2"><?= timeAgo($row['created_at']) ?></td>
                     <td class="border-y border-y-zinc-300 p-2 w-18 whitespace-nowrap text-center">
-                        <button class="transition-all duration-300 hover:bg-yellow-600 cursor-pointer bg-yellow-500 px-2 py-1 rounded-sm text-sm btn-update-cashier" data-id="<?= $row['id'] ?>">Edit</button>
+                        <button class="transition-all duration-300 hover:bg-yellow-600 cursor-pointer bg-yellow-500 px-2 py-1 rounded-sm text-sm btn-update-product" data-id="<?= $row['id'] ?>">Edit</button>
                     </td>
                     <td class="border-y border-y-zinc-300 p-2 w-20 whitespace-nowrap text-center">
-                        <form action="/indomaret/process/cashier_process.php" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
+                        <form action="/indomaret/process/product_process.php" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
                             <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="cashier-id" value="<?= $row['id'] ?>">
+                            <input type="hidden" name="product-id" value="<?= $row['id'] ?>">
                             <button type="submit" class="transition-all duration-300 hover:bg-red-800 cursor-pointer bg-red-500 px-2 py-1 rounded-sm text-white text-sm">Delete</a>
                         </form>
                     </td>
@@ -92,14 +91,14 @@ $result = mysqli_query($conn, $query);
 </table>
 
 <div id="modal" class="bg-[rgba(0,0,0,0.5)] fixed top-0 left-0 w-full h-full place-content-center hidden">
-    <form action="/indomaret/process/cashier_process.php" method="post" class="bg-white flex flex-col w-fit p-4 rounded-md">
-        <h1 id="modal-label" class="font-medium text-2xl mb-[16px]">Add Cashier</h1>
+    <form action="/indomaret/process/product_process.php" method="post" class="bg-white flex flex-col w-fit p-4 rounded-md">
+        <h1 id="modal-label" class="font-medium text-2xl mb-[16px]">Add Product</h1>
         <input id="action" type="hidden" name="action" value="add">
-        <input id="cashier-id" type="hidden" name="cashier-id" value="">
+        <input id="product-id" type="hidden" name="product-id" value="">
         <label for="name" class="font-medium mb-[8px]">Name</label>
-        <input class="md:w-md w-xs p-2 border border-zinc-400 rounded-sm" type="text" name="name" id="cashier-name" value="" placeholder="Cashier Name">
+        <input class="md:w-md w-xs p-2 border border-zinc-400 rounded-sm" type="text" name="name" id="product-name" value="" placeholder="Product Name">
         <label for="status" class="font-medium mb-[8px]">Name</label>
-        <select name="status" id="cashier-status" class="border border-zinc-400 p-2 rounded-sm">
+        <select name="status" id="product-status" class="border border-zinc-400 p-2 rounded-sm">
             <option value="1">
                 Active
             </option>
@@ -114,4 +113,4 @@ $result = mysqli_query($conn, $query);
     </form>
 </div>
 
-<?php require_once ROOTPATH . "/includes/footer.php"; ?>
+<?php require_once ROOTPATH . "/includes/footer.php" ?>
