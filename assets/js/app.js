@@ -250,7 +250,7 @@ $(document).ready(function () {
         const $btnSidebarChilds = $btnSidebar.children();
 
         $btnSidebar.on("click", function () {
-            $sidebar.toggleClass("translate-x-full");
+            $sidebar.toggleClass("-translate-x-full");
             $btnSidebar.toggleClass("active");
 
             if ($btnSidebar.hasClass("active")) {
