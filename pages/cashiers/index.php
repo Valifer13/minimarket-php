@@ -11,7 +11,7 @@ $result = mysqli_query($conn, $query);
 ?>
 
 <div class="flex justify-between items-center mb-4">
-    <h1 class="text-2xl tracking-tighter font-medium">Cashiers List</h1>
+    <h1 class="text-3xl tracking-tighter font-medium">Cashiers List</h1>
     <button id="btn-add-cashier" class="flex gap-2 px-3 py-2 bg-blue-500 rounded-md items-center text-white text-sm tracking-tight cursor-pointer hover:bg-blue-600 transition-all duration-300 font-medium">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ffffff" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
             <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -20,8 +20,8 @@ $result = mysqli_query($conn, $query);
         ADD CASHIER
     </button>
 </div>
-<div class="flex justify-between items-center">
-    <form action="" method="post" class="mb-4 flex items-center">
+<div class="flex justify-between items-center p-1 mb-4">
+    <form action="" method="post" class="flex items-center p-1 w-2xs md:w-xs">
         <div class="p-2 border border-zinc-400 bg-zinc-100 rounded-s-md text-sm w-2xs flex gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
                 <circle cx="11" cy="11" r="8"></circle>
@@ -41,21 +41,20 @@ $result = mysqli_query($conn, $query);
         DELETE ALL
     </button>
 </div>
-<div>
 
-</div>
-<table class="table-auto w-full mb-5">
-    <thead>
-        <tr class="text-zinc-400 *:text-sm *:text-start">
-            <th class="border-b border-b-zinc-300 p-2 w-10"><input type="checkbox" name="select_all" id="select-all"></th>
-            <th class="border-b border-b-zinc-300 p-2 w-10">No</th>
-            <th class="border-b border-b-zinc-300 p-2">Name</th>
-            <th class="border-b border-b-zinc-300 p-2">Status</th>
-            <th class="border-b border-b-zinc-300 p-2">Join At</th>
-            <th class="border-b border-b-zinc-300 p-2 w-fit" colspan="2">Action</th>
-        </tr>
-    </thead>
-    <tbody id="cashiers-table-body">
+<div class="w-full overflow-x-auto overflow-y-hidden">
+    <table class="table-auto w-full min-w-max">
+        <thead>
+            <tr class="text-zinc-400 *:text-sm *:text-start">
+                <th class="border-b border-b-zinc-300 p-2 w-10"><input type="checkbox" name="select_all" id="select-all"></th>
+                <th class="border-b border-b-zinc-300 p-2 w-10">No</th>
+                <th class="border-b border-b-zinc-300 p-2">Name</th>
+                <th class="border-b border-b-zinc-300 p-2">Status</th>
+                <th class="border-b border-b-zinc-300 p-2">Join At</th>
+                <th class="border-b border-b-zinc-300 p-2 w-fit" colspan="2">Action</th>
+            </tr>
+        </thead>
+        <tbody id="cashiers-table-body">
             <?php
             $no = 1;
             while ($row = $result->fetch_assoc()):
@@ -88,8 +87,9 @@ $result = mysqli_query($conn, $query);
                     </td>
                 </tr>
             <?php endwhile; ?>
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 
 <div id="modal" class="bg-[rgba(0,0,0,0.5)] fixed top-0 left-0 w-full h-full place-content-center hidden">
     <form action="/indomaret/process/cashier_process.php" method="post" class="bg-white flex flex-col w-fit p-4 rounded-md">
