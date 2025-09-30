@@ -9,7 +9,7 @@ $result = mysqli_query($conn, $query);
 
 ?>
 
-<div id="name-page" data-page="sales" class="hidden"></div>
-<div>this is sale page</div>
+<div id="name-page" data-page="vouchers" class="hidden"></div>
+<div>this is voucher page</div>
 
 <?php require_once ROOTPATH . "/includes/footer.php" ?>

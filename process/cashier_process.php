@@ -1,5 +1,5 @@
 <?php
-define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . "/indomaret");
+define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . "/pos-minimarket");
 include ROOTPATH . "/config/config.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

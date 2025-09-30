@@ -1,5 +1,5 @@
 <?php
-define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/indomaret');
+define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/pos-minimarket');
 require_once ROOTPATH . "/config/config.php";
 
 $keyword = $_POST['search'];

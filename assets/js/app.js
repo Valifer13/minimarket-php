@@ -1,4 +1,4 @@
-import { timeAgo } from "./utils";
+import { timeAgo } from "./utils.js";
 
 $(document).on('click', '.btn-update-cashier', function () {
     $('#modal-label').html('Edit Cashier');
@@ -11,7 +11,7 @@ $(document).on('click', '.btn-update-cashier', function () {
     const id = $(this).data('id');
 
     $.ajax({
-        url: 'http://localhost/indomaret/pages/cashiers/edit.php',
+        url: 'http://localhost/pos-minimarket/pages/cashiers/edit.php',
         data: { id: id },
         method: 'POST',
         dataType: 'json',
@@ -69,7 +69,7 @@ $(document).ready(function () {
     //     const id = $(this).data('id');
 
     //     $.ajax({
-    //         url: 'http://localhost/indomaret/pages/cashiers/edit.php',
+    //         url: 'http://localhost/pos-minimarket/pages/cashiers/edit.php',
     //         data: { id: id },
     //         method: 'POST',
     //         dataType: 'json',
@@ -102,13 +102,13 @@ $(document).ready(function () {
     //     }
 
     //     // Execute ajax
-    //     xhr.open('GET', '/indomaret/test/test.txt', true);
+    //     xhr.open('GET', '/pos-minimarket/test/test.txt', true);
     //     xhr.send();
     // })
 
     function loadData(keyword = "") {
         $.ajax({
-            url: "/indomaret/pages/cashiers/search.php",
+            url: "/pos-minimarket/pages/cashiers/search.php",
             method: "POST",
             dataType: "json",
             data: { ajax: 1, search: keyword },
@@ -139,7 +139,7 @@ $(document).ready(function () {
                                 <button class="transition-all duration-300 hover:bg-yellow-600 cursor-pointer bg-yellow-500 px-2 py-1 rounded-sm text-sm btn-update-cashier" data-id="${data.id}">Edit</a>
                             </td>
                             <td class="border-y border-y-zinc-300 p-2 w-20 whitespace-nowrap text-center">
-                                <form action="/indomaret/process/cashier_process.php" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
+                                <form action="/pos-minimarket/process/cashier_process.php" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="cashier-id" value="${data.id}">
                                     <button type="submit" class="transition-all duration-300 hover:bg-red-800 cursor-pointer bg-red-500 px-2 py-1 rounded-sm text-white text-sm">Delete</a>
@@ -172,7 +172,7 @@ $(document).ready(function () {
 
         if (confirm("Are you sure you want delete selected cashiers?")) {
             $.ajax({
-                url: "/indomaret/process/cashier_process.php",
+                url: "/pos-minimarket/process/cashier_process.php",
                 method: "POST",
                 data: {
                     action: "delete-multiple",
@@ -198,24 +198,24 @@ $(document).ready(function () {
     })
 
     // Sidebar toggle
-    if ($btnSidebar.length) {
-        const $btnSidebarChilds = $btnSidebar.children();
+    // if ($btnSidebar.length) {
+    //     const $btnSidebarChilds = $btnSidebar.children();
 
-        $btnSidebar.on("click", function () {
-            $sidebar.toggleClass("-translate-x-full");
-            $btnSidebar.toggleClass("active");
+    //     $btnSidebar.on("click", function () {
+    //         $sidebar.toggleClass("-translate-x-full");
+    //         $btnSidebar.toggleClass("active");
 
-            if ($btnSidebar.hasClass("active")) {
-                $btnSidebarChilds.eq(0).addClass("rotate-45 translate-y-1");
-                $btnSidebarChilds.eq(1).addClass("hidden");
-                $btnSidebarChilds.eq(2).addClass("-rotate-45 -translate-y-0.5");
-            } else {
-                $btnSidebarChilds.eq(0).removeClass("rotate-45 translate-y-1");
-                $btnSidebarChilds.eq(1).removeClass("hidden");
-                $btnSidebarChilds.eq(2).removeClass("-rotate-45 -translate-y-0.5");
-            }
-        });
-    }
+    //         if ($btnSidebar.hasClass("active")) {
+    //             $btnSidebarChilds.eq(0).addClass("rotate-45 translate-y-1");
+    //             $btnSidebarChilds.eq(1).addClass("hidden");
+    //             $btnSidebarChilds.eq(2).addClass("-rotate-45 -translate-y-0.5");
+    //         } else {
+    //             $btnSidebarChilds.eq(0).removeClass("rotate-45 translate-y-1");
+    //             $btnSidebarChilds.eq(1).removeClass("hidden");
+    //             $btnSidebarChilds.eq(2).removeClass("-rotate-45 -translate-y-0.5");
+    //         }
+    //     });
+    // }
 
     // Open modal
     $btnAddCashier.on("click", function () {

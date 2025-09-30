@@ -1,5 +1,6 @@
 <?php
 
+$app_name = "pos-minimarket";
 $host = "localhost";
 $user = "root";
 $password = "";
