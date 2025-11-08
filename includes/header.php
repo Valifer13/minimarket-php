@@ -17,15 +17,9 @@ $url = $_SERVER['REQUEST_URI'];
 <body>
     <nav class="">
         <!-- Navbar for Web -->
-        <div id="sidebar" class="active hidden fixed top-0 start-0 md:flex flex-col bg-white min-w-10 md:w-[250px] h-screen gap-5 p-4 border-e border-zinc-300 shadow-zinc-300 shadow-lg transition-all duration-300">
+        <div id="sidebar" class="active hidden fixed top-0 start-0 md:flex flex-col bg-white min-w-10 md:w-[250px] h-screen gap-5 p-4 border-e border-zinc-300 shadow-zinc-300 shadow-lg transition-all duration-300 overflow-y-auto">
             <div id="sidebar-header" class="flex justify-center md:justify-between gap-5">
                 <button id="logo" class="text-3xl font-bold tracking-tighter flex gap-2 hover:cursor-pointer" id="btn-expand-sidebar">∀ <span class="hidden md:block">POS</span></button>
-                <button class="hover:cursor-pointer hidden md:block" id="btn-shrink-sidebar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
-                        <line x1="19" y1="12" x2="5" y2="12"></line>
-                        <polyline points="12 19 5 12 12 5"></polyline>
-                    </svg>
-                </button>
             </div>
 
             <div class="w-full h-[1px] bg-zinc-200"></div>
@@ -206,4 +200,4 @@ $url = $_SERVER['REQUEST_URI'];
         <a href="/pos-minimarket/pages/customers/">Customers</a>
         <a href="/pos-minimarket/pages/suppliers/">Suppliers</a>
     </div> -->
-    <section class="md:px-10 px-4 mt-5 md:mt-17 mx-1 md:ms-[250px]">
+    <section class="md:px-10 px-4 mt-5 md:mt-10 mx-1 md:ms-[250px]">

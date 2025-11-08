@@ -14,16 +14,27 @@ $result = mysqli_query($conn, $query);
 
 <div class="flex justify-between items-center mb-4">
     <h1 class="text-3xl tracking-tighter font-medium">Cashiers List</h1>
-    <button id="btn-add-cashier" class="flex gap-2 px-3 py-2 bg-blue-500 rounded-md items-center text-white text-sm tracking-tight cursor-pointer hover:bg-blue-600 transition-all duration-300 font-medium">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ffffff" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        ADD CASHIER
-    </button>
+    <div class="flex gap-2 md:gap-4">
+        <button id="delete-all" class="flex flex-row gap-2 px-3 py-2 bg-red-500 rounded-md items-center text-white text-sm tracking-tight cursor-pointer hover:bg-red-600 transition-all duration-300 font-medium border-b-5 border-b-red-800 hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+            </svg>
+            <span class="hidden md:block">DELETE ALL</span>
+        </button>
+        <button id="btn-add-cashier" class="flex gap-2 px-3 py-2 bg-blue-500 rounded-md items-center text-white text-sm tracking-tight cursor-pointer hover:bg-blue-600 transition-all duration-300 font-medium border-b-5 border-b-blue-800">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ffffff" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span class="hidden md:block">ADD CASHIER</span>
+        </button>
+    </div>
 </div>
-<div class="flex justify-between items-center p-1 mb-4">
-    <form action="" method="post" class="flex items-center p-1 w-2xs md:w-xs">
+<div class="flex flex-col-reverse md:flex-row justify-end md:justify-between gap-4 md:gap-0 items-end p-1 mb-4">
+    <form action="" method="post" class="flex items-center p-1 w-full md:w-xs">
         <div class="p-2 border border-zinc-400 bg-zinc-100 rounded-s-md text-sm w-2xs flex gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
                 <circle cx="11" cy="11" r="8"></circle>
@@ -33,15 +44,6 @@ $result = mysqli_query($conn, $query);
         </div>
         <button id="search-btn" type="submit" class="px-3 py-2 bg-zinc-100 hover:bg-zinc-200 border-y border-e border-zinc-400 rounded-e-md text-sm transition-all duration-300">Search</button>
     </form>
-    <button id="delete-all" class="flex gap-2 px-3 py-2 bg-red-500 rounded-md items-center text-white text-sm tracking-tight cursor-pointer hover:bg-red-600 transition-all duration-300 font-medium border-b-5 border-b-red-800 hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
-            <polyline points="3 6 5 6 21 6"></polyline>
-            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-            <line x1="10" y1="11" x2="10" y2="17"></line>
-            <line x1="14" y1="11" x2="14" y2="17"></line>
-        </svg>
-        DELETE ALL
-    </button>
 </div>
 
 <div class="w-full overflow-x-auto overflow-y-hidden">
@@ -61,7 +63,7 @@ $result = mysqli_query($conn, $query);
             $no = 1;
             while ($row = $result->fetch_assoc()):
             ?>
-                <tr class="**:text-sm">
+                <tr class="**:text-sm min-w-fit">
                     <td class="border-b border-b-zinc-300 p-2 w-10"><input type="checkbox" name="id" id="checkbox-cashier-id" value="<?= $row['id'] ?>"></td>
                     <td class="border-y border-y-zinc-300 p-2 text-zinc-400"><?= $no++ ?></td>
                     <td class="border-y border-y-zinc-300 p-2"><?= $row['name'] ?></td>
@@ -81,10 +83,10 @@ $result = mysqli_query($conn, $query);
                         <button class="transition-all duration-300 hover:bg-yellow-600 cursor-pointer bg-yellow-500 px-2 py-1 rounded-sm text-sm btn-update-cashier" data-id="<?= $row['id'] ?>">Edit</button>
                     </td>
                     <td class="border-y border-y-zinc-300 p-2 w-20 whitespace-nowrap text-center">
-                        <form action="/pos-minimarket/process/cashier_process.php" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
+                        <form action="<?= BASEURL ?>process/cashier_process.php" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="cashier-id" value="<?= $row['id'] ?>">
-                            <button type="submit" class="transition-all duration-300 hover:bg-red-800 cursor-pointer bg-red-500 px-2 py-1 rounded-sm text-white text-sm">Delete</a>
+                            <button type="submit" class="transition-all duration-300 hover:bg-red-800 cursor-pointer bg-red-500 px-2 py-1 rounded-sm text-white text-sm">Delete</button>
                         </form>
                     </td>
                 </tr>
@@ -94,13 +96,13 @@ $result = mysqli_query($conn, $query);
 </div>
 
 <div id="modal" class="bg-[rgba(0,0,0,0.5)] fixed top-0 left-0 w-full h-full place-content-center hidden">
-    <form action="/pos-minimarket/process/cashier_process.php" method="post" class="bg-white flex flex-col w-fit p-4 rounded-md">
+    <form action="<?= BASEURL ?>process/cashier_process.php" method="post" class="bg-white flex flex-col w-fit p-4 rounded-md">
         <h1 id="modal-label" class="font-medium text-2xl mb-[16px]">Add Cashier</h1>
         <input id="action" type="hidden" name="action" value="add">
         <input id="cashier-id" type="hidden" name="cashier-id" value="">
         <label for="name" class="font-medium mb-[8px]">Name</label>
         <input class="md:w-md w-xs p-2 border border-zinc-400 rounded-sm" type="text" name="name" id="cashier-name" value="" placeholder="Cashier Name">
-        <label for="status" class="font-medium mb-[8px]">Name</label>
+        <label for="status" class="font-medium mb-[8px]">Status</label>
         <select name="status" id="cashier-status" class="border border-zinc-400 p-2 rounded-sm">
             <option value="1">
                 Active

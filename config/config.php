@@ -1,5 +1,7 @@
 <?php
 
+define('BASEURL', '/pos-minimarket');
+
 $app_name = "pos-minimarket";
 $host = "localhost";
 $user = "root";

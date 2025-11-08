@@ -215,6 +215,103 @@ let App = {
     products: {
         init: function () {
             console.log("Script for products page is running");
+            // Product Feature
+            const $btnDeleteAll = $("#delete-all");
+            const $checkboxSelectAll = $("#select-all");
+            const $productsTableBody = $("#products-table-body");
+
+            // Checkbox select all
+            $checkboxSelectAll.on("change", function () {
+                const checked = $(this).prop("checked");
+                $productsTableBody.find('input[name="id"]').prop('checked', checked);
+                toggleBtnDeleteAll();
+            });
+
+            // Checkbox every row
+            $productsTableBody.on('change', 'input[name="id"]', function () {
+                const total = $productsTableBody.find('input[name="id"]').length;
+                const checked = $productsTableBody.find('input[name="id"]:checked').length;
+                $checkboxSelectAll.prop('checked', total === checked);
+                toggleBtnDeleteAll();
+            })
+
+            // Show / hide delete all button
+            function toggleBtnDeleteAll() {
+                const anyChecked = $productsTableBody.find('input[name="id"]:checked').length > 0;
+                $btnDeleteAll.toggleClass('hidden', !anyChecked);
+            }
+
+            // Reindex the table number
+            function reindexTable() {
+                $('#cashiers-table-body tr').each(function (index) {
+                    $(this).find('td:eq(1)').text(index + 1);
+                })
+            }
+
+            function loadData(keyword = "") {
+                $.ajax({
+                    url: "/pos-minimarket/pages/products/search.php",
+                    method: "POST",
+                    dataType: "json",
+                    data: { ajax: 1, search: keyword },
+                    success: function (datas) {
+                        let html = ``;
+
+                        if (datas.length == 0) {
+                            html += `
+                        <tr class="**:text-md font-medium">
+                            <td colspan="6" class="border-y border-y-zinc-300 p-2 text-center">No cashiers found</td>
+                        </tr>
+                    `;
+                        }
+
+                        datas.forEach((data, i) => {
+                            console.log(data)
+                            html += `
+                <tr class="**:text-sm">
+                    <td class="border-b border-b-zinc-300 p-2 w-10"><input type="checkbox" name="id" id="checkbox-product-id" value="${data.id}"></td>
+                    <td class="border-y border-y-zinc-300 p-2 text-zinc-400">${i + 1}</td>
+                    <!-- <td class="border-y border-y-zinc-300 p-2">${data.barcode}</td> -->
+                    <td class="border-y border-y-zinc-300 p-2">${data.name}</td>
+                    <td class="border-y border-y-zinc-300 p-2">${data.supplier_name}</td>
+                    <td class="border-y border-y-zinc-300 p-2">${data.category_name}</td>
+                    <td class="border-y border-y-zinc-300 p-2">Rp. ${data.buy_price}</td>
+                    <td class="border-y border-y-zinc-300 p-2">${data.stock}</td>
+                    <td class="items-center border-y border-y-zinc-300 p-2 w-18 whitespace-nowrap text-center">
+                        <div class="flex gap-3">
+                            <a href="<?= BASEURL ?>/pages/products/detail.php?code=${data.barcode}" class="transition-all duration-300 hover:bg-yellow-600 cursor-pointer bg-yellow-500 px-2 py-1 rounded-sm text-sm btn-update-cashier" data-id="${data.id}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3">
+                                    <path d="M12 20h9"></path>
+                                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                                </svg>
+                            </a>
+                            <form action="<?= BASEURL ?>/process/product_process.php" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="product-id" value="${data.id}">
+                                <button type="submit" class="transition-all duration-300 hover:bg-red-800 cursor-pointer bg-red-500 px-2 py-1 rounded-sm text-white text-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>`;
+                        });
+                        $productsTableBody.html(html);
+                    }
+                })
+            }
+
+            loadData();
+
+            $('#search-keyword').on('keyup', function () {
+                let keyword = $(this).val();
+                loadData(keyword);
+            })
         }
     },
     customers: {
