@@ -76,14 +76,18 @@ $result = mysqli_query($conn, $query);
                 <tr class="**:text-sm">
                     <td class="border-b border-b-zinc-300 p-2 w-10"><input type="checkbox" name="id" id="checkbox-product-id" value="<?= $row['id'] ?>"></td>
                     <td class="border-y border-y-zinc-300 p-2 text-zinc-400"><?= $no++ ?></td>
-                    <td class="border-y border-y-zinc-300 p-2"><?= $row['name'] ?></td>
+                    <?php if ($row['stock'] > 0): ?>
+                        <td class="border-y border-y-zinc-300 p-2"><?= $row['name'] ?></td>
+                    <?php else: ?>
+                        <td class="border-y border-y-zinc-300 p-2 line-through"><?= $row['name'] ?></td>
+                    <?php endif ?>
                     <td class="border-y border-y-zinc-300 p-2"><?= $row['supplier_name'] ?></td>
                     <td class="border-y border-y-zinc-300 p-2"><?= $row['category_name'] ?></td>
                     <td class="border-y border-y-zinc-300 p-2">Rp. <?= $row['buy_price'] ?></td>
                     <td class="border-y border-y-zinc-300 p-2"><?= $row['stock'] ?></td>
                     <td class="items-center border-y border-y-zinc-300 p-2 w-18 whitespace-nowrap text-center">
                         <div class="flex gap-3">
-                            <a href="<?= BASEURL ?>/pages/products/detail.php?code=<?= $row['barcode'] ?>" class="transition-all duration-300 hover:bg-yellow-600 cursor-pointer bg-yellow-500 px-2 py-1 rounded-sm text-sm btn-update-product" data-id="<?= $row['id'] ?>">
+                            <a href="/edit.php?id=<?= $row['id'] ?>" class="transition-all duration-300 hover:bg-yellow-600 cursor-pointer bg-yellow-500 px-2 py-1 rounded-sm text-sm btn-update-product" data-id="<?= $row['id'] ?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3">
                                     <path d="M12 20h9"></path>
                                     <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
@@ -91,7 +95,7 @@ $result = mysqli_query($conn, $query);
                             </a>
                             <form action="<?= BASEURL ?>/process/product_process.php" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
                                 <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="product-id" value="<?= $row['id'] ?>">
+                                <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                 <button type="submit" class="transition-all duration-300 hover:bg-red-800 cursor-pointer bg-red-500 px-2 py-1 rounded-sm text-white text-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
                                         <polyline points="3 6 5 6 21 6"></polyline>

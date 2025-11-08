@@ -4,24 +4,24 @@ include ROOTPATH . "/config/config.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'] ?? null;
-    $action = $_POST['action'];
-    $name = filter_var($_POST['name'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $desc = filter_var($_POST['description'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $action = $_POST['action'] ?? null;
+    $name = filter_var($_POST['name'] ?? null, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $description = filter_var($_POST['description'] ?? null, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $barcode = substr(hash("sha256", $name), 0, 17);
-    $brand_id = $_POST['brand'];
-    $stock = $_POST['stock'];
-    $category_id = $_POST['category'];
-    $sell_price = floatval($_POST['sell_price']);
-    $buy_price = floatval($_POST['buy_price']);
+    $supplier_id = $_POST['supplier'] ?? null;
+    $stock = $_POST['stock'] ?? null;
+    $category_id = $_POST['category'] ?? null;
+    $sell_price = floatval($_POST['sell_price'] ?? null);
+    $buy_price = floatval($_POST['buy_price'] ?? null);
 
     if ($action == 'add') {
-        $query = "INSERT INTO products (barcode, name, category_id, supplier_id, buy_price, sell_price, stock) VALUES ('$barcode', '$name', $category_id, $brand_id, $buy_price, $sell_price, $stock)";
+        $query = "INSERT INTO products (barcode, name, description, category_id, supplier_id, buy_price, sell_price, stock) VALUES ('$barcode', '$name', '$description', $category_id, $supplier_id, $buy_price, $sell_price, $stock)";
         mysqli_query($conn, $query);
     } else if ($action == 'delete') {
         $query = "DELETE FROM products WHERE id=$id";
         mysqli_query($conn, $query);
     } else if ($action == 'update') {
-        $query = "UPDATE products SET name='$name', price=$price, stock=$stock, status=$status WHERE id=$id";
+        $query = "UPDATE products SET name='$name', description='$description', supplier_id=$supplier_id, category_id=$category_id, stock=$stock, sell_price=$sell_price, buy_price=$buy_price WHERE id=$id";
         mysqli_query($conn, $query);
     } else if ($action == 'delete-multiple' && !empty($_POST['ids'])) {
         $ids = $_POST['ids'];
