@@ -1,5 +1,5 @@
 <?php
-define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/pos-minimarket');
+define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/minimarket');
 
 require_once ROOTPATH . "/config/config.php";
 require_once ROOTPATH . "/includes/header.php";
@@ -12,7 +12,7 @@ $categories_result = mysqli_query($conn, $categories_query);
 
 ?>
 
-<div id="name-page" data-page="add-customers" class="hidden"></div>
+<div id="name-page" data-page="add-product" class="hidden"></div>
 
 <div class="flex items-center gap-4 mb-8">
     <div class="p-3 border-[1px] border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-100 transition-all duration-300" onclick="window.location='<?= BASEURL ?>/pages/products/index.php'">
@@ -51,7 +51,7 @@ $categories_result = mysqli_query($conn, $categories_query);
                     <input list="suppliers" name="supplier" id="supplier" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Select brand" required autocomplete="off">
                     <datalist class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" id="suppliers">
                         <?php while ($row = mysqli_fetch_assoc($suppliers_result)) : ?>
-                            <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                            <option value="<?= $row['name'] ?>"></option>
                         <?php endwhile; ?>
                     </datalist>
                 </div>
@@ -65,7 +65,7 @@ $categories_result = mysqli_query($conn, $categories_query);
                         <input list="categories" name="category" id="category" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Category" required autocomplete="off">
                         <datalist id="categories">
                             <?php while ($cat_row = mysqli_fetch_assoc($categories_result)) : ?>
-                                <option value="<?= $cat_row['id'] ?>"><?= $cat_row['name'] ?></option>
+                                <option value="<?= $cat_row['name'] ?>"></option>
                             <?php endwhile; ?>
                         </datalist>
                     </div>
@@ -94,7 +94,7 @@ $categories_result = mysqli_query($conn, $categories_query);
                             <div class="p-2 bg-zinc-100 rounded-s-md border border-r-0 border-zinc-300">
                                 <span class="text-sm text-zinc-400 font-medium">Rp</span>
                             </div>
-                            <input type="number" name="sell_price" id="sell_price" class="w-full border border-l-0 border-zinc-300 rounded-e-md p-2 focus:outline-none text-sm" placeholder="0" required>
+                            <input type="text" name="sell_price" id="sell_price" class="w-full border border-l-0 border-zinc-300 rounded-e-md p-2 focus:outline-none text-sm" placeholder="0" required>
                         </div>
                     </div>
                     <div class="flex flex-col gap-1">
@@ -103,7 +103,7 @@ $categories_result = mysqli_query($conn, $categories_query);
                             <div class="p-2 bg-zinc-100 rounded-s-md border border-r-0 border-zinc-300">
                                 <span class="text-sm text-zinc-400 font-medium">Rp</span>
                             </div>
-                            <input type="number" name="buy_price" id="buy_price" class="w-full border border-l-0 border-zinc-300 rounded-e-md p-2 focus:outline-none text-sm" placeholder="0" required>
+                            <input type="text" name="buy_price" id="buy_price" class="w-full border border-l-0 border-zinc-300 rounded-e-md p-2 focus:outline-none text-sm" placeholder="0" required>
                         </div>
                     </div>
                 </div>

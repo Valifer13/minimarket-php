@@ -1,12 +1,12 @@
 <?php
 
-define('BASEURL', '/pos-minimarket');
+define('BASEURL', '/minimarket');
 
-$app_name = "pos-minimarket";
+$app_name = "minimarket";
 $host = "localhost";
 $user = "root";
 $password = "";
-$db = "minimarket";
+$db = "school_minimarket";
 
 $conn = mysqli_connect($host, $user, $password, $db);
 

@@ -1,5 +1,5 @@
 <?php
-define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/pos-minimarket');
+define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/minimarket');
 
 require_once ROOTPATH . "/config/config.php";
 require_once ROOTPATH . "/includes/header.php";
@@ -60,10 +60,10 @@ $categories_result = mysqli_query($conn, $categories_query);
             <div class="flex flex-col border-[1px] border-zinc-300 rounded-md p-4 gap-4">
                 <div>
                     <label for="supplier" class="text-sm text-zinc-500 font-medium">Brand</label>
-                    <input list="suppliers" name="supplier" id="supplier" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Select brand" required autocomplete="off" value="<?= $product['supplier_id'] ?>">
+                    <input list="suppliers" name="supplier" id="supplier" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Select brand" required autocomplete="off" value="<?= $product['supplier_name'] ?>">
                     <datalist class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" id="suppliers">
                         <?php while ($row = mysqli_fetch_assoc($suppliers_result)) : ?>
-                            <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
+                            <option value="<?= $row['name'] ?>"></option>
                         <?php endwhile; ?>
                     </datalist>
                 </div>
@@ -74,10 +74,10 @@ $categories_result = mysqli_query($conn, $categories_query);
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="category" class="text-sm text-zinc-500 font-medium">Category</label>
-                        <input list="categories" name="category" id="category" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Category" required autocomplete="off" value="<?= $product['category_id'] ?>">
+                        <input list="categories" name="category" id="category" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Category" required autocomplete="off" value="<?= $product['category_name'] ?>">
                         <datalist id="categories">
                             <?php while ($cat_row = mysqli_fetch_assoc($categories_result)) : ?>
-                                <option value="<?= $cat_row['id'] ?>"><?= $cat_row['name'] ?></option>
+                                <option value="<?= $cat_row['name'] ?>"></option>
                             <?php endwhile; ?>
                         </datalist>
                     </div>
@@ -106,7 +106,7 @@ $categories_result = mysqli_query($conn, $categories_query);
                             <div class="p-2 bg-zinc-100 rounded-s-md border border-r-0 border-zinc-300">
                                 <span class="text-sm text-zinc-400 font-medium">Rp</span>
                             </div>
-                            <input type="number" name="sell_price" id="sell_price" class="w-full border border-l-0 border-zinc-300 rounded-e-md p-2 focus:outline-none text-sm" placeholder="0" required value="<?= $product['sell_price'] ?>">
+                            <input type="text" name="sell_price" id="sell_price" class="w-full border border-l-0 border-zinc-300 rounded-e-md p-2 focus:outline-none text-sm" placeholder="0" required value="<?= $product['sell_price'] ?>">
                         </div>
                     </div>
                     <div class="flex flex-col gap-1">
@@ -115,7 +115,7 @@ $categories_result = mysqli_query($conn, $categories_query);
                             <div class="p-2 bg-zinc-100 rounded-s-md border border-r-0 border-zinc-300">
                                 <span class="text-sm text-zinc-400 font-medium">Rp</span>
                             </div>
-                            <input type="number" name="buy_price" id="buy_price" class="w-full border border-l-0 border-zinc-300 rounded-e-md p-2 focus:outline-none text-sm" placeholder="0" required value="<?= $product['buy_price'] ?>">
+                            <input type="text" name="buy_price" id="buy_price" class="w-full border border-l-0 border-zinc-300 rounded-e-md p-2 focus:outline-none text-sm" placeholder="0" required value="<?= $product['buy_price'] ?>">
                         </div>
                     </div>
                 </div>

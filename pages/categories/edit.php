@@ -2,7 +2,8 @@
 define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/minimarket');
 require_once ROOTPATH . "/config/config.php";
 
-$query = "SELECT * FROM cashiers WHERE id=" . $_POST['id'];
+$id = $_POST['id'];
+$query = "SELECT * FROM categories WHERE id=$id";
 $result = mysqli_query($conn, $query);
 $data = mysqli_fetch_assoc($result);
 

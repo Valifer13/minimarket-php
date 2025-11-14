@@ -1,5 +1,5 @@
 <?php
-define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/pos-minimarket');
+define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/minimarket');
 
 require_once ROOTPATH . "/config/config.php";
 require_once ROOTPATH . "/includes/formatDate.php";
@@ -83,7 +83,7 @@ $result = mysqli_query($conn, $query);
                         <button class="transition-all duration-300 hover:bg-yellow-600 cursor-pointer bg-yellow-500 px-2 py-1 rounded-sm text-sm btn-update-cashier" data-id="<?= $row['id'] ?>">Edit</button>
                     </td>
                     <td class="border-y border-y-zinc-300 p-2 w-20 whitespace-nowrap text-center">
-                        <form action="<?= BASEURL ?>process/cashier_process.php" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
+                        <form action="<?= BASEURL ?>/process/cashier_process.php" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="cashier-id" value="<?= $row['id'] ?>">
                             <button type="submit" class="transition-all duration-300 hover:bg-red-800 cursor-pointer bg-red-500 px-2 py-1 rounded-sm text-white text-sm">Delete</button>
@@ -96,7 +96,7 @@ $result = mysqli_query($conn, $query);
 </div>
 
 <div id="modal" class="bg-[rgba(0,0,0,0.5)] fixed top-0 left-0 w-full h-full place-content-center hidden">
-    <form action="<?= BASEURL ?>process/cashier_process.php" method="post" class="bg-white flex flex-col w-fit p-4 rounded-md">
+    <form action="<?= BASEURL ?>/process/cashier_process.php" method="post" class="bg-white flex flex-col w-fit p-4 rounded-md">
         <h1 id="modal-label" class="font-medium text-2xl mb-[16px]">Add Cashier</h1>
         <input id="action" type="hidden" name="action" value="add">
         <input id="cashier-id" type="hidden" name="cashier-id" value="">

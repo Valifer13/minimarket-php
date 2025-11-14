@@ -16,7 +16,7 @@ export function initCashiers() {
         const id = $(this).data('id');
 
         $.ajax({
-            url: 'http://localhost/pos-minimarket/pages/cashiers/edit.php',
+            url: 'http://localhost/minimarket/pages/cashiers/edit.php',
             data: { id: id },
             method: 'POST',
             dataType: 'json',

@@ -1,5 +1,5 @@
 <?php
-define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/pos-minimarket');
+define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/minimarket');
 
 require_once ROOTPATH . "/config/config.php";
 require_once ROOTPATH . "/includes/header.php";

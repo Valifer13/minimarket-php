@@ -11,7 +11,7 @@ $(document).on('click', '.btn-update-cashier', function () {
     const id = $(this).data('id');
 
     $.ajax({
-        url: 'http://localhost/pos-minimarket/pages/cashiers/edit.php',
+        url: 'http://localhost/minimarket/pages/cashiers/edit.php',
         data: { id: id },
         method: 'POST',
         dataType: 'json',
@@ -69,7 +69,7 @@ $(document).ready(function () {
     //     const id = $(this).data('id');
 
     //     $.ajax({
-    //         url: 'http://localhost/pos-minimarket/pages/cashiers/edit.php',
+    //         url: 'http://localhost/minimarket/pages/cashiers/edit.php',
     //         data: { id: id },
     //         method: 'POST',
     //         dataType: 'json',
@@ -102,13 +102,13 @@ $(document).ready(function () {
     //     }
 
     //     // Execute ajax
-    //     xhr.open('GET', '/pos-minimarket/test/test.txt', true);
+    //     xhr.open('GET', '/minimarket/test/test.txt', true);
     //     xhr.send();
     // })
 
     function loadData(keyword = "") {
         $.ajax({
-            url: "/pos-minimarket/pages/cashiers/search.php",
+            url: "/minimarket/pages/cashiers/search.php",
             method: "POST",
             dataType: "json",
             data: { ajax: 1, search: keyword },
@@ -139,7 +139,7 @@ $(document).ready(function () {
                                 <button class="transition-all duration-300 hover:bg-yellow-600 cursor-pointer bg-yellow-500 px-2 py-1 rounded-sm text-sm btn-update-cashier" data-id="${data.id}">Edit</a>
                             </td>
                             <td class="border-y border-y-zinc-300 p-2 w-20 whitespace-nowrap text-center">
-                                <form action="/pos-minimarket/process/cashier_process.php" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
+                                <form action="/minimarket/process/cashier_process.php" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="cashier-id" value="${data.id}">
                                     <button type="submit" class="transition-all duration-300 hover:bg-red-800 cursor-pointer bg-red-500 px-2 py-1 rounded-sm text-white text-sm">Delete</a>
@@ -172,7 +172,7 @@ $(document).ready(function () {
 
         if (confirm("Are you sure you want delete selected cashiers?")) {
             $.ajax({
-                url: "/pos-minimarket/process/cashier_process.php",
+                url: "/minimarket/process/cashier_process.php",
                 method: "POST",
                 data: {
                     action: "delete-multiple",

@@ -1,9 +1,9 @@
 <?php
-define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/pos-minimarket');
+define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/minimarket');
 require_once ROOTPATH . "/config/config.php";
 
 $keyword = $_POST['search'];
-$query = "SELECT * FROM cashiers WHERE name LIKE '%$keyword%'";
+$query = "SELECT * FROM cashiers WHERE LOWER(name) LIKE LOWER('%$keyword%')";
 $result = mysqli_query($conn, $query);
 
 // if (isset($_POST['ajax'])) {
