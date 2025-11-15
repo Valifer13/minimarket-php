@@ -14,8 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $category_name = $_POST['category'] ?? null;
     $sell_price = floatval($_POST['sell_price'] ?? null);
     $buy_price = floatval($_POST['buy_price'] ?? null);
+    $voucher_name = $_POST['voucher'] ?? null;
     $supplier = null;
     $category = null;
+    $voucher = null;
 
     if (!is_null($supplier_name)) {
         $query = "SELECT * FROM suppliers WHERE LOWER(name) = LOWER('$supplier_name')";
@@ -27,14 +29,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $category = getData($query);
     }
 
+    if (!is_null($voucher_name)) {
+        $query = "SELECT * FROM vouchers WHERE LOWER(name) = LOWER('$voucher_name')";
+        $voucher = getData($query);
+    }
+
     if ($action == 'add') {
-        $query = "INSERT INTO products (barcode, name, description, category_id, supplier_id, buy_price, sell_price, stock) VALUES ('$barcode', '$name', '$description', " . $category['id'] . ", " . $supplier['id'] . ", $buy_price, $sell_price, $stock)";
+        $query = "INSERT INTO products (barcode, name, description, category_id, supplier_id, buy_price, sell_price, stock, voucher_id) VALUES ('$barcode', '$name', '$description', " . $category['id'] . ", " . $supplier['id'] . ", $buy_price, $sell_price, $stock, " . $voucher['id'] . ")";
         mysqli_query($conn, $query);
     } else if ($action == 'delete') {
         $query = "DELETE FROM products WHERE id=$id";
         mysqli_query($conn, $query);
     } else if ($action == 'update') {
-        $query = "UPDATE products SET name='$name', description='$description', supplier_id=" . $supplier['id'] . ", category_id=" . $category['id'] . ", stock=$stock, sell_price=$sell_price, buy_price=$buy_price WHERE id=$id";
+        $query = "UPDATE products SET name='$name', description='$description', supplier_id=" . $supplier['id'] . ", category_id=" . $category['id'] . ", stock=$stock, sell_price=$sell_price, buy_price=$buy_price, voucher_id=" . $voucher['id'] . " WHERE id=$id";
         mysqli_query($conn, $query);
     } else if ($action == 'delete-multiple' && !empty($_POST['ids'])) {
         $ids = $_POST['ids'];

@@ -4,22 +4,13 @@ define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/minimarket');
 require_once ROOTPATH . "/config/config.php";
 require_once ROOTPATH . "/includes/header.php";
 
-$query = "SELECT * FROM vouchers ORDER BY id DESC LIMIT 1";
+$id = $_GET['id'];
+$query = "SELECT * FROM vouchers WHERE id=$id";
 $result = mysqli_query($conn, $query)->fetch_assoc();
-$newVoucherCode = intval(substr($result['code'],3, 5));
-$newVoucherCode += 1;
-
-if ($newVoucherCode < 10) {
-    $newVoucherCode = "00" . strval($newVoucherCode);
-} else if ($newVoucherCode > 10 && $newVoucherCode < 100) {
-    $newVoucherCode = "0" . strval($newVoucherCode);
-} else if ($newVoucherCode > 100) {
-    $newVoucherCode = strval($newVoucherCode);
-}
 
 ?>
 
-<div id="name-page" data-page="add-voucher" class="hidden"></div>
+<div id="name-page" data-page="edit-voucher" class="hidden"></div>
 
 <div class="flex items-center gap-4 mb-8">
     <div class="p-3 border-[1px] border-zinc-300 rounded-md cursor-pointer hover:bg-zinc-100 transition-all duration-300" onclick="window.location='/minimarket/pages/vouchers/index.php'">
@@ -35,38 +26,39 @@ if ($newVoucherCode < 10) {
 </div>
 
 <form class="mb-20" action="<?= BASEURL ?>/process/voucher_process.php" method="post">
-    <input type="hidden" name="action" value="add">
+    <input type="hidden" name="action" value="update">
+    <input type="hidden" name="id" value="<?= $id ?>">
     <div class="flex flex-col gap-8">
         <div class="w-full max-w-lg">
             <label for="name" class="text-sm text-zinc-500 font-medium">Voucher Name</label>
-            <input type="text" name="name" id="name" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Voucher Name" required>
+            <input type="text" name="name" id="name" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Voucher Name" value="<?= $result['name'] ?>" required>
         </div>
         <div class="w-full max-w-lg">
             <label for="code" class="text-sm text-zinc-500 font-medium">Code</label>
-            <input readonly type="text" name="code" id="code" class="w-full border bg-zinc-100 text-zinc-400 border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="VCRXXX" value="<?= (!is_null($result)) ? "VCR$newVoucherCode" : "VCR001" ?>" required>
+            <input disabled type="text" name="code" id="code" class="w-full border bg-zinc-100 text-zinc-400 border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="VCRXXX" value="<?= $result['code'] ?>" required>
         </div>
         <div class="w-full max-w-lg">
             <label for="discount" class="text-sm text-zinc-500 font-medium">Discount (%)</label>
-            <input type="number" min="1" max="100" name="discount" id="discount" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="1 - 100" required>
+            <input type="number" min="1" max="100" name="discount" id="discount" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="1 - 100" value="<?= $result['discount'] ?>" required>
         </div>
         <div class="w-full max-w-lg">
             <label for="max_discount" class="text-sm text-zinc-500 font-medium">Max Discount (Rp)</label>
-            <input type="number" name="max_discount" id="max_discount" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Rp. XXX.XXX.XXX" required>
+            <input type="number" name="max_discount" id="max_discount" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Rp. XXX.XXX.XXX" value="<?= $result['max_discount'] ?>" required>
         </div>
         <div class="w-full flex max-w-lg gap-4">
             <div class="w-full flex flex-col">
                 <label for="status" class="text-sm text-zinc-500 font-medium">Status</label>
                 <div class="w-full border border-zinc-300 rounded-md p-2 mt-1 text-sm">
                     <select name="status" id="status" class="w-full focus:outline-none">
-                        <option value="ACTIVE">Active</option>
-                        <option value="INACTIVE">Inactive</option>
-                        <option value="EXPIRED">Expired</option>
+                        <option <?= $result['status'] == "ACTIVE" ? "selected" : "" ?> value="ACTIVE">Active</option>
+                        <option <?= $result['status'] == "INACTIVE" ? "selected" : "" ?> value="INACTIVE">Inactive</option>
+                        <option <?= $result['status'] == "EXPIRED" ? "selected" : "" ?> value="EXPIRED">Expired</option>
                     </select>
                 </div>
             </div>
             <div class="w-full flex flex-col">
                 <label for="expired_date" class="text-sm text-zinc-500 font-medium">Expired Date</label>
-                <input type="date" name="expired_date" id="expired_date" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" required>
+                <input type="date" name="expired_date" id="expired_date" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" value="<?= $result['expired_date'] ?>" required>
             </div>
         </div>
         <div class="flex w-full max-w-lg gap-4 justify-end items-center">

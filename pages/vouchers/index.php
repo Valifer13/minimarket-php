@@ -62,31 +62,37 @@ $result = mysqli_query($conn, $query);
                 <th class="border-b border-b-zinc-300 p-2 w-fit" colspan="2">Action</th>
             </tr>
         </thead>
-        <tbody id="suppliers-table-body">
+        <tbody id="vouchers-table-body">
             <?php
             $no = 1;
             while ($row = $result->fetch_assoc()):
+            $style = "";
+            
+            if ($row['status'] == "INACTIVE") {
+                $style = "border-l-2 border-red-500";
+            }
             ?>
-                <tr class="**:text-sm">
-                    <td class="border-b border-b-zinc-300 p-2 w-10"><input type="checkbox" name="id" id="checkbox-suppliers-id" value="<?= $row['id'] ?>"></td>
+                <tr class="**:text-sm <?= $style ?> <?= ($row['status'] == "EXPIRED") ? "text-zinc-400" : "" ?>">
+                    <td class="border-b border-b-zinc-300 p-2 w-10"><input type="checkbox" name="id" id="checkbox-vouchers-id" value="<?= $row['id'] ?>"></td>
                     <td class="border-y border-y-zinc-300 p-2 text-zinc-400"><?= $no++ ?></td>
-                    <td class="border-y border-y-zinc-300 p-2"><?= $row['name'] ?></td>
+                    <td class="border-y border-y-zinc-300 p-2 <?= ($row['status'] == "EXPIRED") ? "line-through" : "" ?>"><?= $row['name'] ?></td>
                     <td class="border-y border-y-zinc-300 p-2"><?= $row['discount'] ?>%</td>
                     <td class="border-y border-y-zinc-300 p-2">
-                        <div class="w-full h-full rounded-full flex justify-center items-center px-2 <?= ($row['status']) ? 'bg-green-100 border border-green-500 text-green-500' : 'bg-red-100 border border-red-500 text-red-500' ?>">
+                        <!-- <div class="w-full h-full rounded-full flex justify-center items-center px-2 <?= ($row['status']) ? 'bg-green-100 border border-green-500 text-green-500' : 'bg-red-100 border border-red-500 text-red-500' ?>">
                             <?= ($row['status']) ? 'Active' : 'Unactive' ?>
-                        </div>
+                        </div> -->
+                        <?= $row['status'] ?>
                     </td>
-                    <td class="border-y border-y-zinc-300 p-2"><?= $row['expired_date'] ?>%</td>
+                    <td class="border-y border-y-zinc-300 p-2"><?= $row['expired_date'] ?></td>
                     <td class="items-center border-y border-y-zinc-300 p-2 w-18 whitespace-nowrap text-center">
                         <div class="flex gap-3">
-                            <a href="<?= BASEURL ?>/pages/suppliers/edit.php?id=<?= $row['id'] ?>" class="transition-all duration-300 hover:bg-yellow-600 cursor-pointer bg-yellow-500 px-2 py-1 rounded-sm text-sm btn-update-supplier" data-id="<?= $row['id'] ?>">
+                            <a href="<?= BASEURL ?>/pages/vouchers/edit.php?id=<?= $row['id'] ?>" class="transition-all duration-300 hover:bg-yellow-600 cursor-pointer bg-yellow-500 px-2 py-1 rounded-sm text-sm btn-update-voucher" data-id="<?= $row['id'] ?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3">
                                     <path d="M12 20h9"></path>
                                     <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                                 </svg>
                             </a>
-                            <form action="<?= BASEURL ?>/process/supplier_process.php" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
+                            <form action="<?= BASEURL ?>/process/voucher_process.php" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                 <button type="submit" class="transition-all duration-300 hover:bg-red-800 cursor-pointer bg-red-500 px-2 py-1 rounded-sm text-white text-sm">

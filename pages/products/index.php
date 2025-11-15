@@ -4,11 +4,18 @@ define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/minimarket');
 require_once ROOTPATH . "/config/config.php";
 require_once ROOTPATH . "/includes/header.php";
 
-$query = "SELECT p.*, c.name AS category_name, s.name AS supplier_name
-    FROM products p
+$query = "SELECT
+    p.*,
+    c.name AS category_name,
+    s.name AS supplier_name,
+    v.name AS voucher_name,
+    v.code AS voucher_code,
+    v.discount AS voucher_discount,
+    v.max_discount AS voucher_max_discount
+FROM products p
     JOIN categories c ON p.category_id = c.id
     JOIN suppliers s on p.supplier_id = s.id
-    JOIN vouchers v on p.voucher_id = v.id;
+    LEFT JOIN vouchers v on p.voucher_id = v.id;
 ";
 $result = mysqli_query($conn, $query);
 
@@ -73,6 +80,13 @@ $result = mysqli_query($conn, $query);
             <?php
             $no = 1;
             while ($row = $result->fetch_assoc()):
+            
+            $current_price = $row['buy_price'];
+            $discount_price = null;
+
+            if (!is_null($row['voucher_discount'])) {
+                $discount_price = $current_price * ($row['voucher_discount'] / 100);
+            }
             ?>
                 <tr class="**:text-sm *:text-nowrap *:px-4 *:py-2 <?= ($row['stock'] > 0) ? "" : "border-l-2 border-s-red-500" ?>">
                     <td class="border-b border-b-zinc-300  w-10"><input type="checkbox" name="id" id="checkbox-product-id" value="<?= $row['id'] ?>"></td>
@@ -90,11 +104,20 @@ $result = mysqli_query($conn, $query);
                     <?php endif ?>
                     <td class="border-y border-y-zinc-300"><?= $row['voucher_code'] ?? "-" ?></td>
                     <td class="border-y border-y-zinc-300"><?= $row['category_name'] ?></td>
-                    <td class="border-y border-y-zinc-300">Rp. <?= number_format($row['buy_price'], 0, ',', '.') ?></td>
+                    <?php if (!is_null($row['voucher_discount'])): ?>
+                        <td class="border-y border-y-zinc-300">
+                            <p class="text-red-500 line-through mb-0.5">Rp. <?= number_format($current_price, 0, ',', '.') ?></p>
+                            <p>Rp. <?= number_format(($current_price - $discount_price), 0, ',', '.') ?></p>
+                        </td>
+                    <?php else: ?>
+                        <td class="border-y border-y-zinc-300">
+                            Rp. <?= number_format($row['buy_price'], 0, ',', '.') ?>
+                        </td>
+                    <?php endif; ?>
                     <td class="border-y border-y-zinc-300"><?= $row['stock'] ?></td>
                     <td class="items-center border-y border-y-zinc-300 w-18 whitespace-nowrap text-center">
                         <div class="flex gap-3">
-                            <a href="/edit.php?id=<?= $row['id'] ?>" class="transition-all duration-300 hover:bg-yellow-600 cursor-pointer bg-yellow-500 px-2 py-1 rounded-sm text-sm btn-update-product" data-id="<?= $row['id'] ?>">
+                            <a href="<?= BASEURL ?>/pages/products/edit.php?id=<?= $row['id'] ?>" class="transition-all duration-300 hover:bg-yellow-600 cursor-pointer bg-yellow-500 px-2 py-1 rounded-sm text-sm btn-update-product" data-id="<?= $row['id'] ?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3">
                                     <path d="M12 20h9"></path>
                                     <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>

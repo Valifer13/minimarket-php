@@ -6,11 +6,19 @@ require_once ROOTPATH . "/includes/header.php";
 
 $product_id = $_GET['id'];
 
-$product_query = " SELECT p.*, c.name AS category_name, s.name AS supplier_name
-    FROM products p
+$product_query = "SELECT
+    p.*,
+    c.name AS category_name,
+    s.name AS supplier_name,
+    v.name AS voucher_name,
+    v.name AS voucher_code,
+    v.discount AS voucher_discount,
+    v.max_discount AS voucher_max_discount
+FROM products p
     JOIN categories c ON p.category_id = c.id
-    JOIN suppliers s on P.supplier_id = s.id
-    WHERE p.id=$product_id;
+    JOIN suppliers s on p.supplier_id = s.id
+    LEFT JOIN vouchers v on p.voucher_id = v.id
+WHERE p.id=$product_id;
 ";
 $product_result = mysqli_query($conn, $product_query);
 $product = mysqli_fetch_assoc($product_result);
@@ -20,6 +28,9 @@ $suppliers_result = mysqli_query($conn, $suppliers_query);
 
 $categories_query = "SELECT * FROM categories";
 $categories_result = mysqli_query($conn, $categories_query);
+
+$vouchers_query = "SELECT * FROM vouchers";
+$vouchers_result = mysqli_query($conn, $vouchers_query);
 
 ?>
 
@@ -118,6 +129,15 @@ $categories_result = mysqli_query($conn, $categories_query);
                             <input type="text" name="buy_price" id="buy_price" class="w-full border border-l-0 border-zinc-300 rounded-e-md p-2 focus:outline-none text-sm" placeholder="0" required value="<?= $product['buy_price'] ?>">
                         </div>
                     </div>
+                </div>
+                <div>
+                    <label for="voucher" class="text-sm text-zinc-500 font-medium">Voucher</label>
+                    <input list="vouchers" name="voucher" id="voucher" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Select voucher" required autocomplete="off">
+                    <datalist class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" id="vouchers">
+                        <?php while ($row = mysqli_fetch_assoc($vouchers_result)) : ?>
+                            <option value="<?= $row['name'] ?>"></option>
+                        <?php endwhile; ?>
+                    </datalist>
                 </div>
             </div>
         </div>

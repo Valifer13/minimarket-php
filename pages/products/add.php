@@ -10,6 +10,9 @@ $suppliers_result = mysqli_query($conn, $suppliers_query);
 $categories_query = "SELECT * FROM categories";
 $categories_result = mysqli_query($conn, $categories_query);
 
+$vouchers_query = "SELECT * FROM vouchers";
+$vouchers_result = mysqli_query($conn, $vouchers_query);
+
 ?>
 
 <div id="name-page" data-page="add-product" class="hidden"></div>
@@ -106,6 +109,15 @@ $categories_result = mysqli_query($conn, $categories_query);
                             <input type="text" name="buy_price" id="buy_price" class="w-full border border-l-0 border-zinc-300 rounded-e-md p-2 focus:outline-none text-sm" placeholder="0" required>
                         </div>
                     </div>
+                </div>
+                <div>
+                    <label for="voucher" class="text-sm text-zinc-500 font-medium">Voucher</label>
+                    <input list="vouchers" name="voucher" id="voucher" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Select voucher" required autocomplete="off">
+                    <datalist class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" id="vouchers">
+                        <?php while ($row = mysqli_fetch_assoc($vouchers_result)) : ?>
+                            <option value="<?= $row['name'] ?>"></option>
+                        <?php endwhile; ?>
+                    </datalist>
                 </div>
             </div>
         </div>
