@@ -86,6 +86,10 @@ $result = mysqli_query($conn, $query);
 
             if (!is_null($row['voucher_discount'])) {
                 $discount_price = $current_price * ($row['voucher_discount'] / 100);
+                
+                if ($discount_price > $row['voucher_max_discount']) {
+                    $discount_price = $row['voucher_max_discount'];
+                }
             }
             ?>
                 <tr class="**:text-sm *:text-nowrap *:px-4 *:py-2 <?= ($row['stock'] > 0) ? "" : "border-l-2 border-s-red-500" ?>">

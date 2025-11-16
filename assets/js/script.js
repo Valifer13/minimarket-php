@@ -277,16 +277,27 @@ let App = {
                                     </td>
                                     <td class="border-y border-y-zinc-300">${data.voucher_id ? data.voucher_code : "-"}</td>
                                     <td class="border-y border-y-zinc-300">${data.category_name}</td>
-                                    <td class="border-y border-y-zinc-300">${Number(data.buy_price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
-                                    ${() => {
+                                    ${(() => {
                                         if (data.voucher_discount) {
                                             let current_price = Number(data.buy_price);
-                                            let discount_price = Number(data.buy_price) * (20 / 100);
-                                            return (<td class="border-y border-y-zinc-300 text-red-500 line-through">{Number(current_price - discount_price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>);
+                                            let discount_price = Number(data.buy_price) * (data.voucher_discount / 100);
+
+                                            if (discount_price > data.voucher_max_discount) {
+                                                discount_price = data.voucher_max_discount
+                                            }
+
+                                            return `
+                                                <td class="border-y border-y-zinc-300">
+                                                    <p class="text-red-500 line-through mb-0.5">${Number(data.buy_price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
+                                                    <p>${Number(current_price - discount_price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
+                                                </td>`;
                                         } else {
-                                            return (<td class="border-y border-y-zinc-300">{Number(data.buy_price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>);
+                                            return `
+                                                <td class="border-y border-y-zinc-300">
+                                                    ${Number(data.buy_price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                                </td>`;
                                         }
-                                    }}
+                                    })()}
                                     <td class="border-y border-y-zinc-300">${data.stock}</td>
                                     <td class="items-center border-y border-y-zinc-300 w-18 whitespace-nowrap text-center">
                                         <div class="flex gap-3">

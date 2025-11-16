@@ -8,7 +8,7 @@ $query = "SELECT
     c.name AS category_name,
     s.name AS supplier_name,
     v.name AS voucher_name,
-    v.name AS voucher_code,
+    v.code AS voucher_code,
     v.discount AS voucher_discount,
     v.max_discount AS voucher_max_discount
 FROM products p
