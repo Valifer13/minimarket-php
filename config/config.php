@@ -1,6 +1,7 @@
 <?php
 
-define('BASEURL', '/minimarket');
+define("BASEURL", "/minimarket"); // For localhost
+// define('BASEURL', '/'); // For virtual host
 
 $app_name = "minimarket";
 $host = "localhost";
