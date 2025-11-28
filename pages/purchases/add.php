@@ -1,5 +1,5 @@
 <?php
-session_start();
+ob_start();
 define('ROOTPATH', $_SERVER['DOCUMENT_ROOT'] . '/minimarket');
 
 require_once ROOTPATH . "/config/config.php";
@@ -7,11 +7,11 @@ require_once ROOTPATH . "/includes/header.php";
 
 if (isset($_POST['next'])) {
     $query = "SELECT id, code FROM purchases ORDER BY id DESC LIMIT 1";
-    $data = mysqli_query($conn, $query)->fetch_assoc(); // PTRX0001
+    $data  = mysqli_query($conn, $query)->fetch_assoc(); // PTRX0001
 
     if ($data) {
         $last_code = $data['code'];
-        $number = (int) substr($last_code, 4, 8);
+        $number    = (int) substr($last_code, 4, 8);
         $number++;
 
         $transaction_code = "PTRX" . str_pad($number, 4, "0", STR_PAD_LEFT);
@@ -20,31 +20,32 @@ if (isset($_POST['next'])) {
     }
 
     $supplier_name = $_POST['supplier_name'];
-    $admin_name = $_POST['admin_name'];
+    $admin_name    = $_POST['admin_name'];
 
-    $query = "SELECT id FROM suppliers WHERE name='$supplier_name'"; 
-    $result = mysqli_query($conn, $query)->fetch_assoc();
+    $query       = "SELECT id FROM suppliers WHERE name='$supplier_name'";
+    $result      = mysqli_query($conn, $query)->fetch_assoc();
     $supplier_id = $result['id'];
 
-    $query = "SELECT id FROM admins WHERE name='$admin_name'";
-    $result = mysqli_query($conn, $query)->fetch_assoc();
+    $query    = "SELECT id FROM admins WHERE name='$admin_name'";
+    $result   = mysqli_query($conn, $query)->fetch_assoc();
     $admin_id = $result['id'];
 
     date_default_timezone_set('Asia/Makassar');
     $transaction_date = date("Y-m-d H:i:s");
-    
-    $query = "INSERT INTO purchases (code, supplier_id, admin_id, transaction_date)
-              VALUES ('$transaction_code', $supplier_id, $admin_id, $transaction_date)";
-    $new_transaction = mysqli_query($conn, $query);
 
-    $last_transaction_id = mysqli_insert_id($conn);
-    
+    $query = "INSERT INTO purchases (code, supplier_id, admin_id, transaction_date)
+              VALUES ('$transaction_code', $supplier_id, $admin_id, '$transaction_date')";
+
+    if ($new_transaction = mysqli_query($conn, $query)) {
+        $last_transaction_id = mysqli_insert_id($conn);
+    }
+
     $_SESSION['transaction_id'] = $last_transaction_id;
 
     if (!$new_transaction) {
         echo "<p>Failed to save transaction: " . mysqli_error($conn) . "</p>";
     } else {
-        header('Location: transaction_details.php');
+        header('Location: ./transaction_details.php');
         exit;
     }
 }
@@ -71,12 +72,12 @@ $admins_result = mysqli_query($conn, $query);
     </div>
 </div>
 
-<form action="<?= BASEURL ?>/process/purchase_process.php" method="post">
-    <input type="hidden" name="action" value="add">
+<form action="" method="post">
+    <input type="hidden" name="next" value="Next">
     <div class="flex flex-col gap-8">
         <div class="w-full max-w-lg flex flex-col">
             <label for="admin" class="text-sm text-zinc-500 font-medium">Admin</label>
-            <input list="admins" name="admin" id="admin" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Select admin" required autocomplete="off">
+            <input list="admins" name="admin_name" id="admin_name" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Select admin" required autocomplete="off">
             <datalist id="admins">
                 <?php while ($row = mysqli_fetch_assoc($admins_result)) : ?>
                     <option value="<?= $row['name'] ?>"></option>
@@ -85,7 +86,7 @@ $admins_result = mysqli_query($conn, $query);
         </div>
         <div class="w-full max-w-lg flex flex-col">
             <label for="supplier" class="text-sm text-zinc-500 font-medium">Brand</label>
-            <input list="suppliers" name="supplier" id="supplier" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Select brand" required autocomplete="off">
+            <input list="suppliers" name="supplier_name" id="supplier_name" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Select brand" required autocomplete="off">
             <datalist id="suppliers">
                 <?php while ($row = mysqli_fetch_assoc($suppliers_result)) : ?>
                     <option value="<?= $row['name'] ?>"></option>
@@ -94,7 +95,7 @@ $admins_result = mysqli_query($conn, $query);
         </div>
         <div class="flex w-full max-w-lg gap-4 justify-end items-center">
             <button type="button" class="py-2 px-4 rounded-md bg-zinc-100 hover:bg-zinc-300 text-blue-500 border border-blue-500 text-md transition-all duration-300" onclick="window.location='/minimarket/pages/purchases/index.php'">Discard</button>
-            <input type="submit" name="next" value="Next" class="py-2 px-4 rounded-md bg-blue-500 hover:bg-blue-600 text-white text-md transition-all duration-300"></input>
+            <button type="submit" class="py-2 px-4 rounded-md bg-blue-500 hover:bg-blue-600 text-white text-md transition-all duration-300">Next</button>
         </div>
     </div>
 </form>

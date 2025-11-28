@@ -61,7 +61,7 @@ $vouchers_result = mysqli_query($conn, $vouchers_query);
                 <div class="grid grid-cols-2 gap-4">
                     <div class="flex flex-col gap-1">
                         <label for="stock" class="text-sm text-zinc-500 font-medium">Stock</label>
-                        <input type="number" name="stock" id="stock" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="0" required>
+                        <input type="number" name="stock" id="stock" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm disabled:text-zinc-400" placeholder="0" value="0" disabled>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="category" class="text-sm text-zinc-500 font-medium">Category</label>
@@ -112,7 +112,7 @@ $vouchers_result = mysqli_query($conn, $vouchers_query);
                 </div>
                 <div>
                     <label for="voucher" class="text-sm text-zinc-500 font-medium">Voucher</label>
-                    <input list="vouchers" name="voucher" id="voucher" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Select voucher" required autocomplete="off">
+                    <input list="vouchers" name="voucher" id="voucher" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Select voucher" autocomplete="off">
                     <datalist class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" id="vouchers">
                         <?php while ($row = mysqli_fetch_assoc($vouchers_result)) : ?>
                             <option value="<?= $row['name'] ?>"></option>
