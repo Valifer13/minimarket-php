@@ -261,7 +261,7 @@ let App = {
                         if (datas.length == 0) {
                             html += `
                         <tr class="**:text-md font-medium">
-                            <td colspan="8" class="border-y border-y-zinc-300 p-2 text-center">No cashiers found</td>
+                            <td colspan="8" class="border-y border-y-zinc-300 p-2 text-center">No Product Found</td>
                         </tr>
                     `;
                         }
@@ -279,8 +279,8 @@ let App = {
                                     <td class="border-y border-y-zinc-300">${data.category_name}</td>
                                     ${(() => {
                                         if (data.voucher_discount) {
-                                            let current_price = Number(data.buy_price);
-                                            let discount_price = Number(data.buy_price) * (data.voucher_discount / 100);
+                                            let current_price = Number(data.sell_price);
+                                            let discount_price = Number(data.sell_price) * (data.voucher_discount / 100);
 
                                             if (discount_price > data.voucher_max_discount) {
                                                 discount_price = data.voucher_max_discount
@@ -288,13 +288,13 @@ let App = {
 
                                             return `
                                                 <td class="border-y border-y-zinc-300">
-                                                    <p class="text-red-500 line-through mb-0.5">${Number(data.buy_price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
+                                                    <p class="text-red-500 line-through mb-0.5">${Number(data.sell_price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
                                                     <p>${Number(current_price - discount_price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</p>
                                                 </td>`;
                                         } else {
                                             return `
                                                 <td class="border-y border-y-zinc-300">
-                                                    ${Number(data.buy_price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                                    ${Number(data.sell_price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                                                 </td>`;
                                         }
                                     })()}
@@ -766,7 +766,7 @@ let App = {
                         }
 
                         datas.forEach((data, i) => {
-                            let style = ""; 
+                            let style = "";
 
                             if (data.status == 'INACTIVE') {
                                 style = "border-l-2 border-red-500";

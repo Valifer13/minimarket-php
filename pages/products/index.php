@@ -71,7 +71,7 @@ $result = mysqli_query($conn, $query);
                 <th class="border-b border-b-zinc-300">Name</th>
                 <th class="border-b border-b-zinc-300">Voucher</th>
                 <th class="border-b border-b-zinc-300">Category</th>
-                <th class="border-b border-b-zinc-300">Buy Price</th>
+                <th class="border-b border-b-zinc-300">Sell Price</th>
                 <th class="border-b border-b-zinc-300">Qty</th>
                 <th class="border-b border-b-zinc-300 w-fit" colspan="2">Action</th>
             </tr>
@@ -80,16 +80,16 @@ $result = mysqli_query($conn, $query);
             <?php
             $no = 1;
             while ($row = $result->fetch_assoc()):
-            
-            $current_price = $row['buy_price'];
+
+            $current_price = $row['sell_price'];
             $discount_price = null;
 
             if (!is_null($row['voucher_discount'])) {
                 $discount_price = $current_price * ($row['voucher_discount'] / 100);
-                
-                if ($discount_price > $row['voucher_max_discount']) {
-                    $discount_price = $row['voucher_max_discount'];
-                }
+
+                // if ($discount_price > $row['voucher_max_discount']) {
+                //     $discount_price = $row['voucher_max_discount'];
+                // }
             }
             ?>
                 <tr class="**:text-sm *:text-nowrap *:px-4 *:py-2 <?= ($row['stock'] > 0) ? "" : "border-l-2 border-s-red-500" ?>">

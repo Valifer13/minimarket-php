@@ -14,7 +14,8 @@ $query = "SELECT
 FROM products p
     JOIN categories c ON p.category_id = c.id
     JOIN suppliers s on p.supplier_id = s.id
-    LEFT JOIN vouchers v on p.voucher_id = v.id;
+    LEFT JOIN vouchers v on p.voucher_id = v.id
+WHERE p.name LIKE '%$keyword%';
 ";
 $result = mysqli_query($conn, $query);
 

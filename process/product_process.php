@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $description   = filter_var($_POST['description'] ?? null, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $barcode       = substr(hash("sha256", $name), 0, 17);
     $supplier_name = $_POST['supplier'] ?? null;
-    $stock         = $_POST['stock'] ?? null;
+    $stock         = $_POST['stock'] ?? 0;
     $category_name = $_POST['category'] ?? null;
     $sell_price    = floatval($_POST['sell_price'] ?? null);
     $buy_price     = floatval($_POST['buy_price'] ?? null);

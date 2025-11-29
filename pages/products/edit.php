@@ -132,7 +132,7 @@ $vouchers_result = mysqli_query($conn, $vouchers_query);
                 </div>
                 <div>
                     <label for="voucher" class="text-sm text-zinc-500 font-medium">Voucher</label>
-                    <input list="vouchers" name="voucher" id="voucher" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Select voucher" required autocomplete="off">
+                    <input list="vouchers" name="voucher" id="voucher" class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" placeholder="Select voucher" autocomplete="off">
                     <datalist class="w-full border border-zinc-300 rounded-md p-2 mt-1 focus:outline-none text-sm" id="vouchers">
                         <?php while ($row = mysqli_fetch_assoc($vouchers_result)) : ?>
                             <option value="<?= $row['name'] ?>"></option>
